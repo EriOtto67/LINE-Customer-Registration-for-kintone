@@ -1,0 +1,1 @@
+# LINE-Customer-Registration-for-kintone
