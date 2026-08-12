@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お客様情報登録</title>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Yu Gothic", sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f7f9;
+      color: #222;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    p {
+      text-align: center;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .name-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .plate-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #06c755;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    #status {
+      margin-top: 14px;
+      text-align: center;
+      color: #555;
+      min-height: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>お客様情報登録</h1>
+
+  <p>
+    お名前とお車情報をご入力ください。<br>
+    入力いただいた情報をもとにお客様情報を登録いたします。
+  </p>
+
+  <label>お名前</label>
+
+  <div class="name-grid">
+    <input id="lastName" placeholder="姓">
+    <input id="firstName" placeholder="名">
+  </div>
+
+  <label for="carName">車名</label>
+  <input id="carName" placeholder="例：N-BOX">
+
+  <label>登録番号</label>
+
+  <div class="plate-grid">
+    <input id="area" placeholder="滋賀">
+    <input id="classNo" placeholder="580">
+    <input id="kana" placeholder="あ">
+    <input id="number" placeholder="1234">
+  </div>
+
+  <button id="sendButton" type="button">
+    送信する
+  </button>
+
+  <div id="status"></div>
+
+</div>
+
+<script>
+
+const LIFF_ID = "2010920922-MHVBC0L1";
+
+const sendButton = document.getElementById("sendButton");
+const statusArea = document.getElementById("status");
+
+async function initializeLiff() {
+
+  try {
+
+    await liff.init({
+      liffId: LIFF_ID
+    });
+
+    if (!liff.isInClient()) {
+      statusArea.textContent =
+        "LINEアプリ内から開いてください。";
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    statusArea.textContent =
+      "LIFF初期化に失敗しました。";
+  }
+}
+
+async function sendCustomerInfo() {
+
+  const lastName =
+    document.getElementById("lastName").value.trim();
+
+  const firstName =
+    document.getElementById("firstName").value.trim();
+
+  const carName =
+    document.getElementById("carName").value.trim();
+
+  const area =
+    document.getElementById("area").value.trim();
+
+  const classNo =
+    document.getElementById("classNo").value.trim();
+
+  const kana =
+    document.getElementById("kana").value.trim();
+
+  const number =
+    document.getElementById("number").value.trim();
+
+  if (!lastName) {
+    statusArea.textContent = "姓を入力してください。";
+    return;
+  }
+
+  if (!firstName) {
+    statusArea.textContent = "名を入力してください。";
+    return;
+  }
+
+  if (!carName) {
+    statusArea.textContent = "車名を入力してください。";
+    return;
+  }
+
+  if (!area) {
+    statusArea.textContent = "地域名を入力してください。";
+    return;
+  }
+
+  if (!classNo) {
+    statusArea.textContent = "分類番号を入力してください。";
+    return;
+  }
+
+  if (!kana) {
+    statusArea.textContent = "かなを入力してください。";
+    return;
+  }
+
+  if (!number) {
+    statusArea.textContent = "一連番号を入力してください。";
+    return;
+  }
+
+  const fullName =
+    `${lastName} ${firstName}`;
+
+  const plateNumber =
+    `${area}${classNo}${kana}${number}`;
+
+  const message =
+`【初回登録】
+
+氏名：${fullName}
+車名：${carName}
+登録番号：${plateNumber}`;
+
+  try {
+
+    sendButton.disabled = true;
+
+    statusArea.textContent =
+      "送信中です。";
+
+    await liff.sendMessages([
+      {
+        type: "text",
+        text: message
+      }
+    ]);
+
+    statusArea.textContent =
+      "送信しました。";
+
+    liff.closeWindow();
+
+  } catch (error) {
+
+    console.error(error);
+
+    statusArea.textContent =
+      "送信に失敗しました。";
+
+    sendButton.disabled = false;
+  }
+}
+
+sendButton.addEventListener(
+  "click",
+  sendCustomerInfo
+);
+
+initializeLiff();
+
+</script>
+
+</body>
+</html>
