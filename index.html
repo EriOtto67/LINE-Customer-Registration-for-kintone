@@ -1,126 +1,117 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>お客さま情報登録</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お客様情報登録</title>
 
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Yu Gothic", sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f5f7f9;
-      color: #222;
-    }
+<style>
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Yu Gothic", sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: #f5f7f9;
+  color: #222;
+}
 
-    .container {
-      max-width: 520px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.08);
-    }
+.container {
+  max-width: 520px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
 
-    h1 {
-      text-align: center;
-      margin-top: 0;
-      margin-bottom: 12px;
-    }
+h1 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
 
-    p {
-      text-align: center;
-      color: #555;
-      line-height: 1.6;
-    }
+p {
+  text-align: center;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
 
-    label {
-      display: block;
-      margin-top: 18px;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
+label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
 
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-    }
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
 
-    .name-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #06c755;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .plate-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
 
-    button {
-      width: 100%;
-      margin-top: 24px;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      background: #06c755;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:disabled {
-      background: #999;
-      cursor: not-allowed;
-    }
-
-    #status {
-      margin-top: 14px;
-      text-align: center;
-      color: #555;
-      min-height: 20px;
-    }
-  </style>
+#status {
+  margin-top: 14px;
+  text-align: center;
+  color: #555;
+  min-height: 20px;
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <h1>お客さま情報登録</h1>
+  <h1>お客様情報登録</h1>
 
   <p>
     お名前とお車情報をご入力ください。<br>
     入力いただいた情報をもとにお客様情報を登録いたします。
   </p>
 
-  <label>お名前</label>
+  <label for="lastName">姓</label>
+  <input id="lastName" placeholder="例：岩佐">
 
-  <div class="name-grid">
-    <input id="lastName" placeholder="姓">
-    <input id="firstName" placeholder="名">
-  </div>
+  <label for="firstName">名</label>
+  <input id="firstName" placeholder="例：陽宏">
 
   <label for="carName">車名</label>
   <input id="carName" placeholder="例：N-BOX">
 
-  <label>登録番号</label>
+  <label for="area">地域名</label>
+  <input id="area" placeholder="例：滋賀">
 
-  <div class="plate-grid">
-    <input id="area" placeholder="滋賀">
-    <input id="classNo" placeholder="580">
-    <input id="kana" placeholder="あ">
-    <input id="number" placeholder="1234">
-  </div>
+  <label for="classNo">分類番号</label>
+  <input id="classNo" placeholder="例：580">
+
+  <label for="kana">かな</label>
+  <input id="kana" placeholder="例：あ">
+
+  <label for="number">一連番号</label>
+  <input id="number" placeholder="例：1234">
 
   <button id="sendButton" type="button">
     送信する
@@ -234,8 +225,7 @@ async function sendCustomerInfo() {
 
     sendButton.disabled = true;
 
-    statusArea.textContent =
-      "送信中です。";
+    statusArea.textContent = "送信中です。";
 
     await liff.sendMessages([
       {
@@ -244,8 +234,7 @@ async function sendCustomerInfo() {
       }
     ]);
 
-    statusArea.textContent =
-      "送信しました。";
+    statusArea.textContent = "送信しました。";
 
     liff.closeWindow();
 
@@ -253,8 +242,7 @@ async function sendCustomerInfo() {
 
     console.error(error);
 
-    statusArea.textContent =
-      "送信に失敗しました。";
+    statusArea.textContent = "送信に失敗しました。";
 
     sendButton.disabled = false;
   }
