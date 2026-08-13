@@ -53,6 +53,12 @@
       border: 1px solid #cccccc;
       border-radius: 8px;
       background: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .error-input {
+      border: 2px solid #ff4d4f !important;
+      background-color: #fff2f0;
     }
 
     .section-title {
@@ -98,9 +104,10 @@
     #status {
       margin-top: 14px;
       font-size: 14px;
-      color: #555555;
+      color: #d93025;
       text-align: center;
       min-height: 20px;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -153,9 +160,11 @@
     <button id="sendButton" type="button">送信する</button>
 
     <div id="status"></div>
+
   </div>
 
   <script>
+
     const LIFF_ID = "2010920922-ezMC4vGF";
 
     const sendButton = document.getElementById("sendButton");
@@ -163,6 +172,7 @@
 
     async function initializeLiff() {
       try {
+
         await liff.init({
           liffId: LIFF_ID
         });
@@ -170,13 +180,57 @@
         if (!liff.isInClient()) {
           statusArea.textContent = "LINEアプリ内から開いてください。";
         }
+
       } catch (error) {
+
         console.error("LIFF初期化エラー", error);
         statusArea.textContent = "LIFFの初期化に失敗しました。";
+
       }
     }
 
+    function clearErrors() {
+      document.querySelectorAll("input").forEach(input => {
+        input.classList.remove("error-input");
+      });
+    }
+
+    function showError(fieldId, message) {
+
+      clearErrors();
+
+      const field = document.getElementById(fieldId);
+
+      field.classList.add("error-input");
+
+      field.focus();
+
+      field.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+      statusArea.textContent = message;
+    }
+
+    document.querySelectorAll("input").forEach(input => {
+
+      input.addEventListener("input", () => {
+
+        input.classList.remove("error-input");
+
+        if (
+          document.querySelectorAll(".error-input").length === 0
+        ) {
+          statusArea.textContent = "";
+        }
+      });
+    });
+
     async function sendCustomerInfo() {
+
+      clearErrors();
+
       const lastName = document.getElementById("lastName").value.trim();
       const firstName = document.getElementById("firstName").value.trim();
       const carName = document.getElementById("carName").value.trim();
@@ -186,42 +240,44 @@
       const number = document.getElementById("number").value.trim();
 
       if (!lastName) {
-        statusArea.textContent = "姓を入力してください。";
+        showError("lastName", "姓を入力してください。");
         return;
       }
 
       if (!firstName) {
-        statusArea.textContent = "名を入力してください。";
+        showError("firstName", "名を入力してください。");
         return;
       }
 
       if (!carName) {
-        statusArea.textContent = "車名を入力してください。";
+        showError("carName", "車名を入力してください。");
         return;
       }
 
       if (!area) {
-        statusArea.textContent = "登録地域名を入力してください。";
+        showError("area", "登録地域名を入力してください。");
         return;
       }
 
       if (!classNo) {
-        statusArea.textContent = "分類番号を入力してください。";
+        showError("classNo", "分類番号を入力してください。");
         return;
       }
 
       if (!kana) {
-        statusArea.textContent = "ひらがなを入力してください。";
+        showError("kana", "ひらがなを入力してください。");
         return;
       }
 
       if (!number) {
-        statusArea.textContent = "ナンバーを入力してください。";
+        showError("number", "ナンバーを入力してください。");
         return;
       }
 
       const fullName = `${lastName} ${firstName}`;
-      const plateNumber = `${area}${classNo}${kana}${number}`;
+
+      const plateNumber =
+        `${area}${classNo}${kana}${number}`;
 
       const message =
 `【お客さま情報LINE連携】
@@ -231,7 +287,10 @@
 登録番号：${plateNumber}`;
 
       try {
+
         sendButton.disabled = true;
+
+        statusArea.style.color = "#555555";
         statusArea.textContent = "送信中です。";
 
         await liff.sendMessages([
@@ -242,18 +301,28 @@
         ]);
 
         statusArea.textContent = "送信しました。";
+
         liff.closeWindow();
 
       } catch (error) {
+
         console.error("送信エラー", error);
-        statusArea.textContent = "送信に失敗しました。LINEアプリ内から開いているか確認してください。";
+
+        statusArea.style.color = "#d93025";
+        statusArea.textContent =
+          "送信に失敗しました。LINEアプリ内から開いているか確認してください。";
+
         sendButton.disabled = false;
       }
     }
 
-    sendButton.addEventListener("click", sendCustomerInfo);
+    sendButton.addEventListener(
+      "click",
+      sendCustomerInfo
+    );
 
     initializeLiff();
+
   </script>
 </body>
 </html>
