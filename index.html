@@ -284,14 +284,7 @@
         statusArea.textContent = "送信しました。";
         liff.closeWindow();
 
-      } catch (error) {
-        console.error("送信エラー", error);
-
-        statusArea.style.color = "#d93025";
-        statusArea.textContent = "送信に失敗しました。LINEアプリ内から開いているか確認してください。";
-
-        sendButton.disabled = false;
-      }
+      } 
     }
 
     sendButton.addEventListener("click", sendCustomerInfo);
