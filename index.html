@@ -1,261 +1,236 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>お客さま情報登録</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お客さま情報登録</title>
 
-<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
-<style>
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Yu Gothic", sans-serif;
-  margin: 0;
-  padding: 20px;
-  background: #f5f7f9;
-  color: #222;
-}
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Yu Gothic", sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f7f9;
+      color: #222;
+    }
 
-.container {
-  max-width: 520px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
-}
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
 
-h1 {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 12px;
-}
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      margin: 0 0 12px;
+    }
 
-p {
-  text-align: center;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 24px;
-}
+    p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #555;
+      text-align: center;
+      margin-bottom: 24px;
+    }
 
-label {
-  display: block;
-  margin-top: 12px;
-  margin-bottom: 6px;
-  font-weight: bold;
-}
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 18px 0 8px;
+    }
 
-input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-}
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 16px;
+      padding: 12px;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+      background: #ffffff;
+    }
 
-button {
-  width: 100%;
-  margin-top: 24px;
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  background: #06c755;
-  color: white;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
-}
+    .section-title {
+      margin-top: 24px;
+      padding-top: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      border-top: 1px solid #eeeeee;
+    }
 
-button:disabled {
-  background: #999;
-  cursor: not-allowed;
-}
+    button {
+      width: 100%;
+      margin-top: 28px;
+      padding: 14px;
+      font-size: 17px;
+      font-weight: bold;
+      color: #ffffff;
+      background: #06c755;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
 
-#status {
-  margin-top: 14px;
-  text-align: center;
-  color: #555;
-  min-height: 20px;
-}
-</style>
+    button:disabled {
+      background: #999999;
+      cursor: not-allowed;
+    }
+
+    #status {
+      margin-top: 14px;
+      font-size: 14px;
+      color: #555555;
+      text-align: center;
+      min-height: 20px;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="container">
+    <h1>お客さま情報登録</h1>
 
-<div class="container">
+    <p>
+      お名前とお車情報をご入力ください。<br>
+      入力いただいた情報をもとにお客さま情報を登録いたします。
+    </p>
 
-  <h1>お客さま情報登録</h1>
+    <div class="section-title">お名前</div>
 
-  <p>
-    お名前とお車情報をご入力ください。<br>
-    入力いただいた情報をもとにお客様情報を登録いたします。
-  </p>
+    <label for="lastName">姓</label>
+    <input id="lastName" type="text" placeholder="例：山田">
 
-  <label for="lastName">姓</label>
-  <input id="lastName" placeholder="例：岩佐">
+    <label for="firstName">名</label>
+    <input id="firstName" type="text" placeholder="例：太郎">
 
-  <label for="firstName">名</label>
-  <input id="firstName" placeholder="例：陽宏">
+    <div class="section-title">お車情報</div>
 
-  <label for="carName">車名</label>
-  <input id="carName" placeholder="例：N-BOX">
+    <label for="carName">車名</label>
+    <input id="carName" type="text" placeholder="例：N-BOX">
 
-  <label for="area">地域名</label>
-  <input id="area" placeholder="例：滋賀">
+    <div class="section-title">登録番号</div>
 
-  <label for="classNo">分類番号</label>
-  <input id="classNo" placeholder="例：580">
+    <label for="area">地域名</label>
+    <input id="area" type="text" placeholder="例：滋賀">
 
-  <label for="kana">かな</label>
-  <input id="kana" placeholder="例：あ">
+    <label for="classNo">分類番号</label>
+    <input id="classNo" type="text" inputmode="numeric" placeholder="例：580">
 
-  <label for="number">一連番号</label>
-  <input id="number" placeholder="例：1234">
+    <label for="kana">かな</label>
+    <input id="kana" type="text" placeholder="例：あ">
 
-  <button id="sendButton" type="button">
-    送信する
-  </button>
+    <label for="number">一連番号</label>
+    <input id="number" type="text" inputmode="numeric" placeholder="例：1234">
 
-  <div id="status"></div>
+    <button id="sendButton" type="button">送信する</button>
 
-</div>
+    <div id="status"></div>
+  </div>
 
-<script>
+  <script>
+    const LIFF_ID = "2010920922-MHVBC0L1";
 
-const LIFF_ID = "2010920922-MHVBC0L1";
+    const sendButton = document.getElementById("sendButton");
+    const statusArea = document.getElementById("status");
 
-const sendButton = document.getElementById("sendButton");
-const statusArea = document.getElementById("status");
+    async function initializeLiff() {
+      try {
+        await liff.init({
+          liffId: LIFF_ID
+        });
 
-async function initializeLiff() {
-
-  try {
-
-    await liff.init({
-      liffId: LIFF_ID
-    });
-
-    if (!liff.isInClient()) {
-      statusArea.textContent =
-        "LINEアプリ内から開いてください。";
+        if (!liff.isInClient()) {
+          statusArea.textContent = "LINEアプリ内から開いてください。";
+        }
+      } catch (error) {
+        console.error("LIFF初期化エラー", error);
+        statusArea.textContent = "LIFFの初期化に失敗しました。";
+      }
     }
 
-  } catch (error) {
+    async function sendCustomerInfo() {
+      const lastName = document.getElementById("lastName").value.trim();
+      const firstName = document.getElementById("firstName").value.trim();
+      const carName = document.getElementById("carName").value.trim();
+      const area = document.getElementById("area").value.trim();
+      const classNo = document.getElementById("classNo").value.trim();
+      const kana = document.getElementById("kana").value.trim();
+      const number = document.getElementById("number").value.trim();
 
-    console.error(error);
+      if (!lastName) {
+        statusArea.textContent = "姓を入力してください。";
+        return;
+      }
 
-    statusArea.textContent =
-      "LIFF初期化に失敗しました。";
-  }
-}
+      if (!firstName) {
+        statusArea.textContent = "名を入力してください。";
+        return;
+      }
 
-async function sendCustomerInfo() {
+      if (!carName) {
+        statusArea.textContent = "車名を入力してください。";
+        return;
+      }
 
-  const lastName =
-    document.getElementById("lastName").value.trim();
+      if (!area) {
+        statusArea.textContent = "地域名を入力してください。";
+        return;
+      }
 
-  const firstName =
-    document.getElementById("firstName").value.trim();
+      if (!classNo) {
+        statusArea.textContent = "分類番号を入力してください。";
+        return;
+      }
 
-  const carName =
-    document.getElementById("carName").value.trim();
+      if (!kana) {
+        statusArea.textContent = "かなを入力してください。";
+        return;
+      }
 
-  const area =
-    document.getElementById("area").value.trim();
+      if (!number) {
+        statusArea.textContent = "一連番号を入力してください。";
+        return;
+      }
 
-  const classNo =
-    document.getElementById("classNo").value.trim();
+      const fullName = `${lastName} ${firstName}`;
+      const plateNumber = `${area}${classNo}${kana}${number}`;
 
-  const kana =
-    document.getElementById("kana").value.trim();
-
-  const number =
-    document.getElementById("number").value.trim();
-
-  if (!lastName) {
-    statusArea.textContent = "姓を入力してください。";
-    return;
-  }
-
-  if (!firstName) {
-    statusArea.textContent = "名を入力してください。";
-    return;
-  }
-
-  if (!carName) {
-    statusArea.textContent = "車名を入力してください。";
-    return;
-  }
-
-  if (!area) {
-    statusArea.textContent = "地域名を入力してください。";
-    return;
-  }
-
-  if (!classNo) {
-    statusArea.textContent = "分類番号を入力してください。";
-    return;
-  }
-
-  if (!kana) {
-    statusArea.textContent = "かなを入力してください。";
-    return;
-  }
-
-  if (!number) {
-    statusArea.textContent = "一連番号を入力してください。";
-    return;
-  }
-
-  const fullName =
-    `${lastName} ${firstName}`;
-
-  const plateNumber =
-    `${area}${classNo}${kana}${number}`;
-
-  const message =
+      const message =
 `【初回登録】
 
 氏名：${fullName}
 車名：${carName}
 登録番号：${plateNumber}`;
 
-  try {
+      try {
+        sendButton.disabled = true;
+        statusArea.textContent = "送信中です。";
 
-    sendButton.disabled = true;
+        await liff.sendMessages([
+          {
+            type: "text",
+            text: message
+          }
+        ]);
 
-    statusArea.textContent = "送信中です。";
+        statusArea.textContent = "送信しました。";
+        liff.closeWindow();
 
-    await liff.sendMessages([
-      {
-        type: "text",
-        text: message
+      } catch (error) {
+        console.error("送信エラー", error);
+        statusArea.textContent = "送信に失敗しました。LINEアプリ内から開いているか確認してください。";
+        sendButton.disabled = false;
       }
-    ]);
+    }
 
-    statusArea.textContent = "送信しました。";
+    sendButton.addEventListener("click", sendCustomerInfo);
 
-    liff.closeWindow();
-
-  } catch (error) {
-
-    console.error(error);
-
-    statusArea.textContent = "送信に失敗しました。";
-
-    sendButton.disabled = false;
-  }
-}
-
-sendButton.addEventListener(
-  "click",
-  sendCustomerInfo
-);
-
-initializeLiff();
-
-</script>
-
+    initializeLiff();
+  </script>
 </body>
 </html>
