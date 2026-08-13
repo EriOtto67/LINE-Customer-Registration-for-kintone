@@ -55,11 +55,6 @@
       background: #ffffff;
     }
 
-    .error-input {
-      border: 4px solid #ff0000 !important;
-      background-color: #ffe5e5 !important;
-    }
-
     .section-title {
       margin-top: 32px;
       padding-top: 12px;
@@ -103,10 +98,9 @@
     #status {
       margin-top: 14px;
       font-size: 14px;
-      color: #d93025;
+      color: #555555;
       text-align: center;
       min-height: 20px;
-      font-weight: bold;
     }
   </style>
 </head>
@@ -176,48 +170,13 @@
         if (!liff.isInClient()) {
           statusArea.textContent = "LINEアプリ内から開いてください。";
         }
-
       } catch (error) {
         console.error("LIFF初期化エラー", error);
         statusArea.textContent = "LIFFの初期化に失敗しました。";
       }
     }
 
-    function clearErrors() {
-      const inputs = document.querySelectorAll("input");
-
-      inputs.forEach(function(input) {
-        input.classList.remove("error-input");
-        input.style.border = "";
-        input.style.backgroundColor = "";
-      });
-    }
-
-    function markError(fieldId) {
-      const field = document.getElementById(fieldId);
-
-      field.classList.add("error-input");
-      field.style.border = "4px solid #ff0000";
-      field.style.backgroundColor = "#ffe5e5";
-    }
-
-    function clearSingleError(fieldId) {
-      const field = document.getElementById(fieldId);
-
-      field.classList.remove("error-input");
-      field.style.border = "";
-      field.style.backgroundColor = "";
-    }
-
-    document.querySelectorAll("input").forEach(function(input) {
-      input.addEventListener("input", function() {
-        clearSingleError(input.id);
-      });
-    });
-
     async function sendCustomerInfo() {
-      clearErrors();
-
       const lastName = document.getElementById("lastName").value.trim();
       const firstName = document.getElementById("firstName").value.trim();
       const carName = document.getElementById("carName").value.trim();
@@ -227,50 +186,36 @@
       const number = document.getElementById("number").value.trim();
 
       if (!lastName) {
-        markError("lastName");
-        statusArea.style.color = "#d93025";
         statusArea.textContent = "姓を入力してください。";
         return;
       }
 
       if (!firstName) {
-        markError("firstName");
-        statusArea.style.color = "#d93025";
         statusArea.textContent = "名を入力してください。";
         return;
       }
 
       if (!carName) {
-        markError("carName");
-        statusArea.style.color = "#d93025";
         statusArea.textContent = "車名を入力してください。";
         return;
       }
 
       if (!area) {
-        markError("area");
-        statusArea.style.color = "#d93025";
         statusArea.textContent = "登録地域名を入力してください。";
         return;
       }
 
       if (!classNo) {
-        markError("classNo");
-        statusArea.style.color = "#d93025";
         statusArea.textContent = "分類番号を入力してください。";
         return;
       }
 
       if (!kana) {
-        markError("kana");
-        statusArea.style.color = "#d93025";
         statusArea.textContent = "ひらがなを入力してください。";
         return;
       }
 
       if (!number) {
-        markError("number");
-        statusArea.style.color = "#d93025";
         statusArea.textContent = "ナンバーを入力してください。";
         return;
       }
@@ -287,7 +232,6 @@
 
       try {
         sendButton.disabled = true;
-        statusArea.style.color = "#555555";
         statusArea.textContent = "送信中です。";
 
         await liff.sendMessages([
@@ -302,10 +246,7 @@
 
       } catch (error) {
         console.error("送信エラー", error);
-
-        statusArea.style.color = "#d93025";
         statusArea.textContent = "送信に失敗しました。LINEアプリ内から開いているか確認してください。";
-
         sendButton.disabled = false;
       }
     }
