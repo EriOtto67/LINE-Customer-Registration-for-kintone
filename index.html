@@ -55,6 +55,10 @@
       background: #ffffff;
     }
 
+    input.error {
+    border: 2px solid #ff0000;
+    background: #fff0f0;
+      }
     .section-title {
       margin-top: 32px;
       padding-top: 12px;
@@ -184,13 +188,19 @@
       return document.getElementById(id).value.trim();
     }
 
-    function validateInput(value, message) {
-      if (!value) {
-        statusArea.textContent = message;
-        return false;
-      }
-      return true;
-    }
+function validateInput(id, message) {
+  const element = document.getElementById(id);
+
+  if (!element.value.trim()) {
+    element.classList.add("error");
+    statusArea.textContent = message;
+    element.focus();
+    return false;
+  }
+
+  element.classList.remove("error");
+  return true;
+}
 
     async function sendCustomerInfo() {
       const lastName = getInputValue("lastName");
@@ -201,13 +211,13 @@
       const kana = getInputValue("kana");
       const number = getInputValue("number");
 
-      if (!validateInput(lastName, "姓を入力してください。")) return;
-      if (!validateInput(firstName, "名を入力してください。")) return;
-      if (!validateInput(carName, "車名を入力してください。")) return;
-      if (!validateInput(area, "登録地域名を入力してください。")) return;
-      if (!validateInput(classNo, "分類番号を入力してください。")) return;
-      if (!validateInput(kana, "ひらがなを入力してください。")) return;
-      if (!validateInput(number, "ナンバーを入力してください。")) return;
+      if (!validateInput("lastName", "姓を入力してください。")) return;
+      if (!validateInput("firstName", "名を入力してください。")) return;
+      if (!validateInput("carName", "車名を入力してください。")) return;
+      if (!validateInput("area", "登録地域名を入力してください。")) return;
+      if (!validateInput("classNo", "分類番号を入力してください。")) return;
+      if (!validateInput("kana", "ひらがなを入力してください。")) return;
+      if (!validateInput("number", "ナンバーを入力してください。")) return;
 
       if (!liffInitialized) {
         statusArea.textContent = "LIFFの初期化が完了していません。";
