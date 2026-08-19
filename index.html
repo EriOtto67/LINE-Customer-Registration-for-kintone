@@ -56,9 +56,10 @@
     }
 
     .error {
-  border: 2px solid #e53935 !important;
-  background: #fff5f5 !important;
-}
+      border: 2px solid #e53935 !important;
+      background: #fff5f5 !important;
+    }
+
     .section-title {
       margin-top: 32px;
       padding-top: 12px;
@@ -102,7 +103,8 @@
     #status {
       margin-top: 14px;
       font-size: 14px;
-      color: #555555;
+      color: #d32f2f;
+      font-weight: bold;
       text-align: center;
       min-height: 20px;
       white-space: pre-wrap;
@@ -166,6 +168,14 @@
     const sendButton = document.getElementById("sendButton");
     const statusArea = document.getElementById("status");
 
+    const lastNameInput = document.getElementById("lastName");
+    const firstNameInput = document.getElementById("firstName");
+    const carNameInput = document.getElementById("carName");
+    const areaInput = document.getElementById("area");
+    const classNoInput = document.getElementById("classNo");
+    const kanaInput = document.getElementById("kana");
+    const numberInput = document.getElementById("number");
+
     let liffInitialized = false;
 
     async function initializeLiff() {
@@ -184,64 +194,72 @@
       }
     }
 
-    function getInputValue(id) {
-      return document.getElementById(id).value.trim();
+    function clearErrors() {
+      lastNameInput.classList.remove("error");
+      firstNameInput.classList.remove("error");
+      carNameInput.classList.remove("error");
+      areaInput.classList.remove("error");
+      classNoInput.classList.remove("error");
+      kanaInput.classList.remove("error");
+      numberInput.classList.remove("error");
+    }
+
+    function getInputValue(input) {
+      return input.value.trim();
     }
 
     async function sendCustomerInfo() {
-      const lastName = getInputValue("lastName");
-      const firstName = getInputValue("firstName");
-      const carName = getInputValue("carName");
-      const area = getInputValue("area");
-      const classNo = getInputValue("classNo");
-      const kana = getInputValue("kana");
-      const number = getInputValue("number");
+      clearErrors();
 
-      document.querySelectorAll("input").forEach(input => {
-  input.classList.remove("error");
-});
+      const lastName = getInputValue(lastNameInput);
+      const firstName = getInputValue(firstNameInput);
+      const carName = getInputValue(carNameInput);
+      const area = getInputValue(areaInput);
+      const classNo = getInputValue(classNoInput);
+      const kana = getInputValue(kanaInput);
+      const number = getInputValue(numberInput);
 
-let hasError = false;
+      let hasError = false;
 
-if (!lastName) {
-  document.getElementById("lastName").classList.add("error");
-  hasError = true;
-}
+      if (!lastName) {
+        lastNameInput.classList.add("error");
+        hasError = true;
+      }
 
-if (!firstName) {
-  document.getElementById("firstName").classList.add("error");
-  hasError = true;
-}
+      if (!firstName) {
+        firstNameInput.classList.add("error");
+        hasError = true;
+      }
 
-if (!carName) {
-  document.getElementById("carName").classList.add("error");
-  hasError = true;
-}
+      if (!carName) {
+        carNameInput.classList.add("error");
+        hasError = true;
+      }
 
-if (!area) {
-  document.getElementById("area").classList.add("error");
-  hasError = true;
-}
+      if (!area) {
+        areaInput.classList.add("error");
+        hasError = true;
+      }
 
-if (!classNo) {
-  document.getElementById("classNo").classList.add("error");
-  hasError = true;
-}
+      if (!classNo) {
+        classNoInput.classList.add("error");
+        hasError = true;
+      }
 
-if (!kana) {
-  document.getElementById("kana").classList.add("error");
-  hasError = true;
-}
+      if (!kana) {
+        kanaInput.classList.add("error");
+        hasError = true;
+      }
 
-if (!number) {
-  document.getElementById("number").classList.add("error");
-  hasError = true;
-}
+      if (!number) {
+        numberInput.classList.add("error");
+        hasError = true;
+      }
 
-if (hasError) {
-  statusArea.textContent = "未入力の項目があります。";
-  return;
-}
+      if (hasError) {
+        statusArea.textContent = "未入力の項目があります。";
+        return;
+      }
 
       if (!liffInitialized) {
         statusArea.textContent = "LIFFの初期化が完了していません。";
@@ -269,6 +287,7 @@ if (hasError) {
             "isInClient=" + liff.isInClient() + "\n" +
             "OS=" + liff.getOS() + "\n" +
             "LoggedIn=" + liff.isLoggedIn();
+
           sendButton.disabled = false;
           return;
         }
@@ -298,6 +317,34 @@ if (hasError) {
         sendButton.disabled = false;
       }
     }
+
+    lastNameInput.addEventListener("input", () => {
+      lastNameInput.classList.remove("error");
+    });
+
+    firstNameInput.addEventListener("input", () => {
+      firstNameInput.classList.remove("error");
+    });
+
+    carNameInput.addEventListener("input", () => {
+      carNameInput.classList.remove("error");
+    });
+
+    areaInput.addEventListener("input", () => {
+      areaInput.classList.remove("error");
+    });
+
+    classNoInput.addEventListener("input", () => {
+      classNoInput.classList.remove("error");
+    });
+
+    kanaInput.addEventListener("input", () => {
+      kanaInput.classList.remove("error");
+    });
+
+    numberInput.addEventListener("input", () => {
+      numberInput.classList.remove("error");
+    });
 
     sendButton.addEventListener("click", sendCustomerInfo);
 
