@@ -55,10 +55,10 @@
       background: #ffffff;
     }
 
-    input.error {
+    .error {
   border: 2px solid #e53935 !important;
   background: #fff5f5 !important;
-      }
+}
     .section-title {
       margin-top: 32px;
       padding-top: 12px;
@@ -188,20 +188,6 @@
       return document.getElementById(id).value.trim();
     }
 
-function validateInput(id, message) {
-  const element = document.getElementById(id);
-
-  if (!element.value.trim()) {
-    element.classList.add("error");
-    statusArea.textContent = message;
-    element.focus();
-    return false;
-  }
-
-  element.classList.remove("error");
-  return true;
-}
-
     async function sendCustomerInfo() {
       const lastName = getInputValue("lastName");
       const firstName = getInputValue("firstName");
@@ -211,13 +197,51 @@ function validateInput(id, message) {
       const kana = getInputValue("kana");
       const number = getInputValue("number");
 
-      if (!validateInput("lastName", "姓を入力してください。")) return;
-      if (!validateInput("firstName", "名を入力してください。")) return;
-      if (!validateInput("carName", "車名を入力してください。")) return;
-      if (!validateInput("area", "登録地域名を入力してください。")) return;
-      if (!validateInput("classNo", "分類番号を入力してください。")) return;
-      if (!validateInput("kana", "ひらがなを入力してください。")) return;
-      if (!validateInput("number", "ナンバーを入力してください。")) return;
+      document.querySelectorAll("input").forEach(input => {
+  input.classList.remove("error");
+});
+
+let hasError = false;
+
+if (!lastName) {
+  document.getElementById("lastName").classList.add("error");
+  hasError = true;
+}
+
+if (!firstName) {
+  document.getElementById("firstName").classList.add("error");
+  hasError = true;
+}
+
+if (!carName) {
+  document.getElementById("carName").classList.add("error");
+  hasError = true;
+}
+
+if (!area) {
+  document.getElementById("area").classList.add("error");
+  hasError = true;
+}
+
+if (!classNo) {
+  document.getElementById("classNo").classList.add("error");
+  hasError = true;
+}
+
+if (!kana) {
+  document.getElementById("kana").classList.add("error");
+  hasError = true;
+}
+
+if (!number) {
+  document.getElementById("number").classList.add("error");
+  hasError = true;
+}
+
+if (hasError) {
+  statusArea.textContent = "未入力の項目があります。";
+  return;
+}
 
       if (!liffInitialized) {
         statusArea.textContent = "LIFFの初期化が完了していません。";
