@@ -45,15 +45,16 @@
       margin: 18px 0 8px;
     }
 
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      font-size: 16px;
-      padding: 12px;
-      border: 1px solid #cccccc;
-      border-radius: 8px;
-      background: #ffffff;
-    }
+    input,
+select {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+  padding: 12px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  background: #ffffff;
+}
 
     .error {
       border: 2px solid #e53935 !important;
@@ -157,6 +158,17 @@
     <label for="number">ナンバー</label>
     <input id="number" type="text" inputmode="numeric" placeholder="例：1234">
 
+    <div class="section-title">ご利用SS</div>
+
+<label for="ssName">ご利用SS</label>
+<select id="ssName">
+  <option value="">選択してください</option>
+  <option value="EneJetニュー長浜SS">EneJetニュー長浜SS</option>
+  <option value="EneJet彦根SS">EneJet彦根SS</option>
+  <option value="Dr.Drive八日市SS">Dr.Drive八日市SS</option>
+  <option value="ENEOSニュー近江八幡SS">ENEOSニュー近江八幡SS</option>
+</select>
+
     <button id="sendButton" type="button">送信する</button>
 
     <div id="status"></div>
@@ -175,6 +187,7 @@
     const classNoInput = document.getElementById("classNo");
     const kanaInput = document.getElementById("kana");
     const numberInput = document.getElementById("number");
+    const ssNameInput = document.getElementById("ssName");
 
     let liffInitialized = false;
 
@@ -202,6 +215,7 @@
       classNoInput.classList.remove("error");
       kanaInput.classList.remove("error");
       numberInput.classList.remove("error");
+      ssNameInput.classList.remove("error");
     }
 
     function getInputValue(input) {
@@ -218,6 +232,7 @@
       const classNo = getInputValue(classNoInput);
       const kana = getInputValue(kanaInput);
       const number = getInputValue(numberInput);
+      const ssName = getInputValue(ssNameInput);
 
       let hasError = false;
 
@@ -256,6 +271,11 @@
         hasError = true;
       }
 
+      if (!ssName) {
+  ssNameInput.classList.add("error");
+  hasError = true;
+}
+
       if (hasError) {
         statusArea.textContent = "未入力の項目があります。";
         return;
@@ -274,7 +294,8 @@
 
 氏名：${fullName}
 車名：${carName}
-登録番号：${plateNumber}`;
+登録番号：${plateNumber}
+利用SS：${ssName}`;
 
       try {
         sendButton.disabled = true;
