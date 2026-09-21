@@ -285,11 +285,12 @@ select {
       if (!ssName) {
   ssNameInput.classList.add("error");
   hasError = true;
+      }
 
       if (!staffName) {
   staffNameInput.classList.add("error");
   hasError = true;      
-}
+      }
 
       if (hasError) {
         statusArea.textContent = "未入力の項目があります。";
